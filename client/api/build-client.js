@@ -5,8 +5,7 @@ const Named = ({ req }) => {
     //we are on the server
     console.log('Server side called');
     return axios.create({
-      baseURL:
-        'http://www.morelcorp.org',
+      baseURL: 'http://www.morelcorp.ca',
       headers: req.headers,
     });
   } else {

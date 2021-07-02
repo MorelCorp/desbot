@@ -7,16 +7,9 @@ metadata:
     nginx.ingress.kubernetes.io/use-regex: 'true'
 spec:
   rules:
-    - host: ticketing.dev
+    - host: morelcorp.dev
       http:
         paths:
-          - path: /api/payments/?(.*)
-            pathType: ImplementationSpecific
-            backend:
-              service:
-                name: payments-srv
-                port:
-                  number: 3000
           - path: /api/users/?(.*)
             pathType: ImplementationSpecific
             backend:
@@ -24,18 +17,11 @@ spec:
                 name: auth-srv
                 port:
                   number: 3000
-          - path: /api/tickets/?(.*)
+          - path: /api/games/?(.*)
             pathType: ImplementationSpecific
             backend:
               service:
-                name: tickets-srv
-                port:
-                  number: 3000
-          - path: /api/orders/?(.*)
-            pathType: ImplementationSpecific
-            backend:
-              service:
-                name: orders-srv
+                name: games-srv
                 port:
                   number: 3000
           - path: /?(.*)

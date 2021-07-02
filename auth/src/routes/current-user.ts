@@ -1,6 +1,6 @@
 import express from 'express';
 
-import { currentUser } from '@morelcorp_learn/common';
+import { currentUser } from '@morelcorp_learn/desbot-common';
 
 const router = express.Router();
 
