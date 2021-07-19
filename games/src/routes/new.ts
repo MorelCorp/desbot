@@ -30,9 +30,6 @@ router.post(
     new GameCreatedPublisher(natsWrapper.client).publish({
       id: game.id,
       title: game.title,
-      price: game.price,
-      userId: game.userId,
-      version: game.version,
     });
 
     res.status(201).send(game);

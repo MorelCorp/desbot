@@ -46,9 +46,6 @@ router.put(
     new GameUpdatedPublisher(natsWrapper.client).publish({
       id: game.id,
       title: game.title,
-      price: game.price,
-      userId: game.userId,
-      version: game.version,
     });
 
     res.send(game);
