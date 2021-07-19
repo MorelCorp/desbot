@@ -9,4 +9,4 @@ router.get('/api/games', async (req: Request, res: Response) => {
   res.send(games);
 });
 
-export { router as indexTicketRouter };
+export { router as indexGameRouter };

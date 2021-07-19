@@ -1,8 +1,8 @@
 import express, { Request, Response } from 'express';
 import { body } from 'express-validator';
-import { requireAuth, validateRequest } from '@morelcorp_learn/desbot-common';
+import { requireAuth, validateRequest } from '@morelcorp/desbot-common';
 import { Game } from '../models/game';
-import { TicketCreatedPublisher } from '../events/publishers/game-created-publisher';
+import { GameCreatedPublisher } from '../events/publishers/game-created-publisher';
 import { natsWrapper } from '../nats-wrapper';
 
 const router = express.Router();
@@ -27,7 +27,7 @@ router.post(
     });
     await game.save();
 
-    new TicketCreatedPublisher(natsWrapper.client).publish({
+    new GameCreatedPublisher(natsWrapper.client).publish({
       id: game.id,
       title: game.title,
       price: game.price,
@@ -39,4 +39,4 @@ router.post(
   }
 );
 
-export { router as createTicketRouter };
+export { router as createGameRouter };

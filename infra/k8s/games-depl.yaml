@@ -15,7 +15,6 @@ spec:
       containers:
         - name: games
           image: morelcorp/games
-          # image: us.gcr.io/ticketing-dev-301616/games
           env:
             - name: JWT_KEY
               valueFrom:
@@ -27,7 +26,7 @@ spec:
             - name: NATS_URL
               value: 'http://nats-srv:4222'
             - name: NATS_CLUSTER_ID
-              value: ticketing
+              value: gameameing
             - name: NATS_CLIENT_ID
               valueFrom:
                 fieldRef:

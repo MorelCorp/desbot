@@ -1,9 +1,6 @@
 import express, { Request, Response } from 'express';
 import { body } from 'express-validator';
-import {
-  BadRequestError,
-  validateRequest,
-} from '@morelcorp_learn/desbot-common';
+import { BadRequestError, validateRequest } from '@morelcorp/desbot-common';
 import { User } from '../models/user';
 import { Password } from '../services/passwords';
 import jwt from 'jsonwebtoken';
@@ -46,7 +43,6 @@ router.post(
       jwt: userJwt,
     };
     console.log('Successful signin by ', existingUser.email);
-    console.log('Cookie ', req.session);
 
     res.status(200).send(existingUser);
   }

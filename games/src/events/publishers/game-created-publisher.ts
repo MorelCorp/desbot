@@ -1,9 +1,9 @@
 import {
   Publisher,
   Subjects,
-  TicketCreatedEvent,
-} from '@morelcorp_learn/desbot-common';
+  GameCreatedEvent,
+} from '@morelcorp/desbot-common';
 
-export class TicketCreatedPublisher extends Publisher<TicketCreatedEvent> {
-  subject: Subjects.TicketCreated = Subjects.TicketCreated;
+export class GameCreatedPublisher extends Publisher<GameCreatedEvent> {
+  subject: Subjects.GameCreated = Subjects.GameCreated;
 }

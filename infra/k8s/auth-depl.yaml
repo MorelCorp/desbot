@@ -15,7 +15,6 @@ spec:
       containers:
         - name: auth
           image: morelcorp/auth
-          # image: us.gcr.io/ticketing-dev-301616/auth
           env:
             - name: JWT_KEY
               valueFrom:

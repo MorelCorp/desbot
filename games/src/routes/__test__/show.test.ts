@@ -21,11 +21,11 @@ it('returns a 404 if the game is not found', async () => {
     })
     .expect(201);
 
-  const ticketResponse = await request(app)
+  const gameameResponse = await request(app)
     .get(`/api/games/${response.body.id}`)
     .send()
     .expect(200);
 
-  expect(ticketResponse.body.title).toEqual(title);
-  expect(ticketResponse.body.price).toEqual(price);
+  expect(gameameResponse.body.title).toEqual(title);
+  expect(gameameResponse.body.price).toEqual(price);
 });

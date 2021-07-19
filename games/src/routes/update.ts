@@ -6,9 +6,9 @@ import {
   requireAuth,
   NotAuthorizedError,
   BadRequestError,
-} from '@morelcorp_learn/desbot-common';
+} from '@morelcorp/desbot-common';
 import { Game } from '../models/game';
-import { TicketUpdatedPublisher } from '../events/publishers/game
+import { GameUpdatedPublisher } from '../events/publishers/game-updated-publisher';
 import { natsWrapper } from '../nats-wrapper';
 
 const router = express.Router();
@@ -24,13 +24,13 @@ router.put(
   ],
   validateRequest,
   async (req: Request, res: Response) => {
-    const game
+    const game = await Game.findById(req.params.id);
 
-    if (!game
+    if (!game) {
       throw new NotFoundError();
     }
 
-    if (gameId) {
+    if (game.orderId) {
       throw new BadRequestError('Cannot edit a reserved game');
     }
 
@@ -43,7 +43,7 @@ router.put(
       price: req.body.price,
     });
     await game.save();
-    new TicketUpdatedPublisher(natsWrapper.client).publish({
+    new GameUpdatedPublisher(natsWrapper.client).publish({
       id: game.id,
       title: game.title,
       price: game.price,
@@ -55,4 +55,4 @@ router.put(
   }
 );
 
-export { router as updateTicketRouter };
+export { router as updateGameRouter };

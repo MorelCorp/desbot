@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express';
 import { Game } from '../models/game';
-import { NotFoundError } from '@morelcorp_learn/desbot-common';
+import { NotFoundError } from '@morelcorp/desbot-common';
 
 const router = express.Router();
 
@@ -13,4 +13,4 @@ router.get('/api/games/:id', async (req: Request, res: Response) => {
   res.send(game);
 });
 
-export { router as showTicketRouter };
+export { router as showGameRouter };

@@ -96,12 +96,12 @@ it('updates the game provided valid input', async () => {
     })
     .expect(200);
 
-  const ticketResponse = await request(app)
+  const gameameResponse = await request(app)
     .get(`/api/games/${response.body.id}`)
     .send({});
 
-  expect(ticketResponse.body.title).toEqual('superb new title');
-  expect(ticketResponse.body.price).toEqual(100);
+  expect(gameameResponse.body.title).toEqual('superb new title');
+  expect(gameameResponse.body.price).toEqual(100);
 });
 
 it('publishes an event', async () => {

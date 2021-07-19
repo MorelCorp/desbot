@@ -1,13 +1,13 @@
 import mongoose from 'mongoose';
 import { updateIfCurrentPlugin } from 'mongoose-update-if-current';
 
-interface TicketAttrs {
+interface GameAttrs {
   title: string;
   price: number;
   userId: string;
 }
 
-interface TicketDoc extends mongoose.Document {
+interface GameDoc extends mongoose.Document {
   title: string;
   price: number;
   userId: string;
@@ -15,11 +15,11 @@ interface TicketDoc extends mongoose.Document {
   orderId?: string;
 }
 
-interface TicketModel extends mongoose.Model<TicketDoc> {
-  build(attrs: TicketAttrs): TicketDoc;
+interface GameModel extends mongoose.Model<GameDoc> {
+  build(attrs: GameAttrs): GameDoc;
 }
 
-const ticketSchema = new mongoose.Schema(
+const gameameSchema = new mongoose.Schema(
   {
     title: {
       type: String,
@@ -47,13 +47,13 @@ const ticketSchema = new mongoose.Schema(
   }
 );
 
-ticketSchema.set('versionKey', 'version');
-ticketSchema.plugin(updateIfCurrentPlugin);
+gameameSchema.set('versionKey', 'version');
+gameameSchema.plugin(updateIfCurrentPlugin);
 
-ticketSchema.statics.build = (attrs: TicketAttrs) => {
+gameameSchema.statics.build = (attrs: GameAttrs) => {
   return new Game(attrs);
 };
 
-const Game = mongoose.model<TicketDoc, TicketModel>('Game', ticketSchema);
+const Game = mongoose.model<GameDoc, GameModel>('Game', gameameSchema);
 
 export { Game };

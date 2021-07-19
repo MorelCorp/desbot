@@ -1,10 +1,8 @@
 import express from 'express';
 
-import { currentUser } from '@morelcorp_learn/desbot-common';
+import { currentUser } from '@morelcorp/desbot-common';
 
 const router = express.Router();
-
-console.log('currentuser called for ', currentUser);
 
 router.get('/api/users/currentuser', currentUser, (req, res) => {
   console.log('currentUser called by: ', req.currentUser || null);

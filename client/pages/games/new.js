@@ -2,7 +2,7 @@ import { useState } from 'react';
 import useRequest from '../../hooks/use-request';
 import Router from 'next/router';
 
-const NewTicket = () => {
+const NewGame = () => {
   const [title, setTitle] = useState('');
   const [price, setPrice] = useState('');
   const { doRequest, errors } = useRequest({
@@ -59,4 +59,4 @@ const NewTicket = () => {
   );
 };
 
-export default NewTicket;
+export default NewGame;

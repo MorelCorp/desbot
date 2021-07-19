@@ -1,10 +1,10 @@
 import {
   Publisher,
   Subjects,
-  TicketUpdatedEvent,
-} from '@morelcorp_learn/desbot-common';
+  GameUpdatedEvent,
+} from '@morelcorp/desbot-common';
 import { natsWrapper } from '../../nats-wrapper';
 
-export class TicketUpdatedPublisher extends Publisher<TicketUpdatedEvent> {
-  subject: Subjects.TicketUpdated = Subjects.TicketUpdated;
+export class GameUpdatedPublisher extends Publisher<GameUpdatedEvent> {
+  subject: Subjects.GameUpdated = Subjects.GameUpdated;
 }

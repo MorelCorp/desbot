@@ -1,9 +1,6 @@
 import express, { Request, Response } from 'express';
 import { body } from 'express-validator';
-import {
-  BadRequestError,
-  validateRequest,
-} from '@morelcorp_learn/desbot-common';
+import { BadRequestError, validateRequest } from '@morelcorp/desbot-common';
 import jwt from 'jsonwebtoken';
 
 import { User } from '../models/user';
