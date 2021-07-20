@@ -1,6 +1,6 @@
 import request from 'supertest';
 import { app } from '../../app';
-import { Game } from '../../models/game';
+import { Game, PLACEHOLDER_THUMBNAIL } from '../../models/game';
 import { natsWrapper } from '../../nats-wrapper';
 
 it('has a route handler listening to /api/games for post requests', async () => {
@@ -28,35 +28,13 @@ it('returns an error if an invalid title is provided', async () => {
     .set('Cookie', global.signin())
     .send({
       title: '',
-      price: 10,
     })
     .expect(400);
 
   await request(app)
     .post('/api/games')
     .set('Cookie', global.signin())
-    .send({
-      price: 10,
-    })
-    .expect(400);
-});
-
-it('returns an error if an invalid price is provided', async () => {
-  await request(app)
-    .post('/api/games')
-    .set('Cookie', global.signin())
-    .send({
-      title: 'asdfasfas',
-      price: -10,
-    })
-    .expect(400);
-
-  await request(app)
-    .post('/api/games')
-    .set('Cookie', global.signin())
-    .send({
-      title: 'asdfasfasdf',
-    })
+    .send({})
     .expect(400);
 });
 
@@ -68,14 +46,34 @@ it('creates a game with valid inputs', async () => {
     .post('/api/games')
     .set('Cookie', global.signin())
     .send({
-      title: 'asdfasdff',
-      price: 20,
+      title: 'Good Title',
+      bggId: '000',
+      thumbnail: 'thumbnail link',
     })
     .expect(201);
 
   games = await Game.find({});
   expect(games.length).toEqual(1);
-  expect(games[0].price).toEqual(20);
+  expect(games[0].bggId).toEqual('000');
+  expect(games[0].thumbnail).toEqual('thumbnail link');
+});
+
+it('creates a game with default params if not all provided', async () => {
+  let games = await Game.find({});
+  expect(games.length).toEqual(0);
+
+  await request(app)
+    .post('/api/games')
+    .set('Cookie', global.signin())
+    .send({
+      title: 'Good Title',
+    })
+    .expect(201);
+
+  games = await Game.find({});
+  expect(games.length).toEqual(1);
+  expect(games[0].bggId).toEqual('0');
+  expect(games[0].thumbnail).toEqual(PLACEHOLDER_THUMBNAIL);
 });
 
 it('publishes an event', async () => {
@@ -86,7 +84,6 @@ it('publishes an event', async () => {
     .set('Cookie', global.signin())
     .send({
       title,
-      price: 20,
     })
     .expect(201);
 

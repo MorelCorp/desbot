@@ -7,7 +7,7 @@ import {
   NotAuthorizedError,
   BadRequestError,
 } from '@morelcorp/desbot-common';
-import { Game } from '../models/game';
+import { Game, PLACEHOLDER_THUMBNAIL } from '../models/game';
 import { GameUpdatedPublisher } from '../events/publishers/game-updated-publisher';
 import { natsWrapper } from '../nats-wrapper';
 
@@ -16,12 +16,6 @@ const router = express.Router();
 router.put(
   '/api/games/:id',
   requireAuth,
-  [
-    body('title').not().isEmpty().withMessage('Title is required'),
-    body('price')
-      .isFloat({ gt: 0 })
-      .withMessage('Price must be provided and must be greater than 0'),
-  ],
   validateRequest,
   async (req: Request, res: Response) => {
     const game = await Game.findById(req.params.id);
@@ -30,17 +24,16 @@ router.put(
       throw new NotFoundError();
     }
 
-    if (game.orderId) {
-      throw new BadRequestError('Cannot edit a reserved game');
-    }
-
-    if (game.userId !== req.currentUser!.id) {
-      throw new NotAuthorizedError();
-    }
+    const {
+      title,
+      bggId = '0', //default empty if undefined
+      thumbnail = PLACEHOLDER_THUMBNAIL, //default placeholder if undefined
+    } = req.body;
 
     game.set({
-      title: req.body.title,
-      price: req.body.price,
+      title: title,
+      bggId: bggId,
+      thumbnail: thumbnail,
     });
     await game.save();
     new GameUpdatedPublisher(natsWrapper.client).publish({

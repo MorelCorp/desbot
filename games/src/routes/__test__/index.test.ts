@@ -4,8 +4,7 @@ import { createGameRouter } from '../new';
 
 const createGame = () => {
   return request(app).post('/api/games').set('Cookie', global.signin()).send({
-    title: 'asdffgasdfasd',
-    price: 20,
+    title: 'Generic Title: The Game',
   });
 };
 

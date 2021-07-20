@@ -1,40 +1,39 @@
 import mongoose from 'mongoose';
 import { updateIfCurrentPlugin } from 'mongoose-update-if-current';
 
+const PLACEHOLDER_THUMBNAIL =
+  'https://via.placeholder.com/200x150?text=No+Image';
+
 interface GameAttrs {
   title: string;
-  price: number;
-  userId: string;
+  bggId: string;
+  thumbnail: string;
 }
 
 interface GameDoc extends mongoose.Document {
-  title: string;
-  price: number;
-  userId: string;
   version: number;
-  orderId?: string;
+  title: string;
+  bggId: string;
+  thumbnail: string;
 }
 
 interface GameModel extends mongoose.Model<GameDoc> {
   build(attrs: GameAttrs): GameDoc;
 }
 
-const gameameSchema = new mongoose.Schema(
+const gameSchema = new mongoose.Schema(
   {
     title: {
       type: String,
       required: true,
     },
-    price: {
-      type: Number,
-      required: true,
-    },
-    userId: {
+    bggId: {
       type: String,
       required: true,
     },
-    orderId: {
+    thumbnail: {
       type: String,
+      required: true,
     },
   },
   {
@@ -47,13 +46,13 @@ const gameameSchema = new mongoose.Schema(
   }
 );
 
-gameameSchema.set('versionKey', 'version');
-gameameSchema.plugin(updateIfCurrentPlugin);
+gameSchema.set('versionKey', 'version');
+gameSchema.plugin(updateIfCurrentPlugin);
 
-gameameSchema.statics.build = (attrs: GameAttrs) => {
+gameSchema.statics.build = (attrs: GameAttrs) => {
   return new Game(attrs);
 };
 
-const Game = mongoose.model<GameDoc, GameModel>('Game', gameameSchema);
+const Game = mongoose.model<GameDoc, GameModel>('Game', gameSchema);
 
-export { Game };
+export { Game, PLACEHOLDER_THUMBNAIL };

@@ -1,7 +1,7 @@
 import express, { Request, Response } from 'express';
 import { body } from 'express-validator';
 import { requireAuth, validateRequest } from '@morelcorp/desbot-common';
-import { Game } from '../models/game';
+import { Game, PLACEHOLDER_THUMBNAIL } from '../models/game';
 import { GameCreatedPublisher } from '../events/publishers/game-created-publisher';
 import { natsWrapper } from '../nats-wrapper';
 
@@ -10,20 +10,19 @@ const router = express.Router();
 router.post(
   '/api/games',
   requireAuth,
-  [
-    body('title').not().isEmpty().withMessage('Title is required'),
-    body('price')
-      .isFloat({ gt: 0 })
-      .withMessage('Price must be greated than 0'),
-  ],
+  [body('title').not().isEmpty().withMessage('Title is required')],
   validateRequest,
   async (req: Request, res: Response) => {
-    const { title, price } = req.body;
+    const {
+      title,
+      bggId = '0', //default empty if undefined
+      thumbnail = PLACEHOLDER_THUMBNAIL, //default placeholder if undefined
+    } = req.body;
 
     const game = Game.build({
       title,
-      price,
-      userId: req.currentUser!.id,
+      bggId,
+      thumbnail,
     });
     await game.save();
 
